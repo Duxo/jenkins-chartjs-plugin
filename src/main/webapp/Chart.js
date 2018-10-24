@@ -2807,6 +2807,15 @@
 
 	};
 
+        //being backwards compatible
+        //is compatible with undefined
+        function getSpecialColor(dataset, index) {
+            if (dataset.coloredTips) {
+                return dataset.coloredTips[index];
+            } else {
+                return dataset.pointColor;
+            }
+        }
 
 	Chart.Type.extend({
 		name: "Line",
@@ -2864,7 +2873,9 @@
 						label : data.labels[index],
 						datasetLabel: dataset.label,
 						strokeColor : dataset.pointStrokeColor,
-						fillColor : dataset.pointColor,
+                                                // here was set color for tip from user setup
+                                                // overwrite if exists better value
+						fillColor : getSpecialColor(dataset, index),
 						highlightFill : dataset.pointHighlightFill || dataset.pointColor,
 						highlightStroke : dataset.pointHighlightStroke || dataset.pointStrokeColor
 					}));
