@@ -24,6 +24,7 @@
 package hudson.plugins;
 
 import java.awt.Color;
+import java.util.Random;
 
 /**
  *
@@ -55,4 +56,11 @@ public class ColorChanger {
         return Math.abs(newColorComponent % 255);
     }
 
+    public static String randomColor() {
+        Random r = new Random();
+        int red = r.nextInt(256);
+        int green = r.nextInt(256);
+        int blue = r.nextInt(256);
+        return codeHex(new Color(red, green, blue));
+    }
 }
