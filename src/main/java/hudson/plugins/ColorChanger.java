@@ -32,11 +32,11 @@ import java.util.Random;
  */
 public class ColorChanger {
 
-    private static String codeHex(Color c) {
+    static String codeHex(Color c) {
         String hex = "#";
-        hex += Integer.toHexString(c.getRed());
-        hex += Integer.toHexString(c.getGreen());
-        hex += Integer.toHexString(c.getBlue());
+        hex += codeColorComponent(c.getRed());
+        hex += codeColorComponent(c.getGreen());
+        hex += codeColorComponent(c.getBlue());
         return hex;
     }
 
@@ -44,16 +44,19 @@ public class ColorChanger {
         return shiftColorBy(Color.decode(hex), r, g, b);
     }
 
-    private static String shiftColorBy(Color c, int r, int g, int b) {
+    static String shiftColorBy(Color c, int r, int g, int b) {
         int red = shiftColorComponent(c.getRed(), r);
         int green = shiftColorComponent(c.getGreen(), g);
         int blue = shiftColorComponent(c.getBlue(), b);
         return codeHex(new Color(red, green, blue));
     }
 
-    private static int shiftColorComponent(int colorComponent, int shiftBy) {
+    static int shiftColorComponent(int colorComponent, int shiftBy) {
         int newColorComponent = colorComponent + shiftBy;
-        return Math.abs(newColorComponent % 255);
+        if (newColorComponent >= 0) {
+            return Math.abs(newColorComponent % 256);
+        }
+        return Math.abs(256 + (newColorComponent % 256));
     }
 
     public static String randomColor() {
@@ -62,5 +65,20 @@ public class ColorChanger {
         int green = r.nextInt(256);
         int blue = r.nextInt(256);
         return codeHex(new Color(red, green, blue));
+    }
+
+    public static String randomColor(Random r) {
+        int red = r.nextInt(256);
+        int green = r.nextInt(256);
+        int blue = r.nextInt(256);
+        return codeHex(new Color(red, green, blue));
+    }
+
+    static String codeColorComponent(int colorComponent) {
+        String hex = Integer.toHexString(colorComponent);
+        if (hex.length() >= 2) {
+            return hex;
+        }
+        return "0" + hex;
     }
 }
