@@ -2808,9 +2808,8 @@
 	};
 
         //being backwards compatible
-        //is compatible with undefined
         function getSpecialColor(dataset, index) {
-            if (dataset.coloredTips) {
+            if (dataset.coloredTips && typeof dataset.coloredTips[index] !== 'undefined' && dataset.coloredTips[index] !== null) {
                 return dataset.coloredTips[index];
             } else {
                 return dataset.pointColor;
@@ -2873,8 +2872,6 @@
 						label : data.labels[index],
 						datasetLabel: dataset.label,
 						strokeColor : dataset.pointStrokeColor,
-                                                // here was set color for tip from user setup
-                                                // overwrite if exists better value
 						fillColor : getSpecialColor(dataset, index),
 						highlightFill : dataset.pointHighlightFill || dataset.pointColor,
 						highlightStroke : dataset.pointHighlightStroke || dataset.pointStrokeColor
